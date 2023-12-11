@@ -15,9 +15,7 @@ public class ProductDAO {
     private ProductRepository productRepository;
 
     public List<Product> getAllProducts(){
-        List<Product> products = productRepository.findAll();
-        System.out.println(products);
-        return products;
+        return productRepository.findAll();
     }
 
     public Product getProductById(UUID id){
