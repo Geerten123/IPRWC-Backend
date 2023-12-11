@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -32,6 +34,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ApiResponse PostProduct(@Valid @RequestBody Product product){
+        System.out.println("hij is hier");
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.SaveProductToDatabase(product));
     }
 
