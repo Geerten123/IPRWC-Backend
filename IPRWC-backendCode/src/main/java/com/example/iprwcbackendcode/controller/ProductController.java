@@ -34,7 +34,6 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ApiResponse PostProduct(@Valid @RequestBody Product product){
-        System.out.println("hij is hier");
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.SaveProductToDatabase(product));
     }
 
