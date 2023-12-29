@@ -1,5 +1,7 @@
 package com.example.iprwcbackendcode.security;
 
+
+
 import com.example.iprwcbackendcode.security.jwt.AuthEntryPointJwt;
 import com.example.iprwcbackendcode.security.jwt.AuthTokenFilter;
 import com.example.iprwcbackendcode.security.services.UserDetailsServiceImpl;
@@ -68,12 +70,15 @@ public class WebSecurityConfig {
                         // TODO remove this in production
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/products").permitAll()
+                        .requestMatchers("/api/products/get/**").permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
 
 
 }

@@ -6,6 +6,7 @@ import com.example.iprwcbackendcode.model.Product;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,11 +22,12 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
+//    @PreAuthorize("hasRole('None')")
     public ApiResponse GetAllProducts(){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getAllProducts());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ApiResponse GetProductById(@PathVariable UUID id){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getProductById(id));
