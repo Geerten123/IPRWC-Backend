@@ -1,7 +1,10 @@
 package com.example.iprwcbackendcode.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -10,35 +13,41 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String firstname;
-    private String middlename;
-    private String lastname;
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+                joinColumns = @JoinColumn(name = "userid"),
+                inverseJoinColumns = @JoinColumn(name = "roleid"))
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {}
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public UUID getId() {
         return id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstname(String firstName) {
-        this.firstname = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastname(String lastName) {
-        this.lastname = lastName;
-    }
-
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    public void setMiddlename(String middleName) {
-        this.middlename = middleName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
