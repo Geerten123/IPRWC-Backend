@@ -72,6 +72,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/products").permitAll()
                         .requestMatchers("/api/products/get/**").permitAll()
+                        .requestMatchers("/api/cart").permitAll()
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
