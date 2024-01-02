@@ -27,8 +27,6 @@ public class ShoppingCartController {
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse GetAllProductsForUser(){
         UUID userId = userService.getUserFromAuth().getId();
-        System.out.println(userId);
-        System.out.println("tes123456");
         return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.GetAllProductsForUser(userId));
     }
 
@@ -41,8 +39,6 @@ public class ShoppingCartController {
     @RequestMapping(value = "/{productId}",method = RequestMethod.DELETE)
     public ApiResponse RemoveProductFromCart(@PathVariable UUID productId){
         UUID userId = userService.getUserFromAuth().getId();
-        System.out.println(userId);
-        System.out.println(productId);
         return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.DeleteProductFromCart(userId, productId));
     }
 

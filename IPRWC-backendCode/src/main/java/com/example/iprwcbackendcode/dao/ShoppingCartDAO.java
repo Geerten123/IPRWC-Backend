@@ -14,32 +14,23 @@ public class ShoppingCartDAO {
     private ShoppingCartRepository shoppingCartRepository;
 
     public ShoppingCart[] GetAllProductsForUser(UUID userId){
-        ShoppingCart[] shoppingCarts = this.shoppingCartRepository.findAllByUserId(userId);
-
-        for (ShoppingCart shoppingCart : shoppingCarts) {
-            System.out.println("test");
-            System.out.println(shoppingCart.getProductId());
-        }
-
-        return shoppingCarts;
+        return this.shoppingCartRepository.findAllByUserId(userId);
     }
 
     public ShoppingCart AddProductToCart(UUID userId, UUID productId, int amount){
         ShoppingCart[] cart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
-        int totalAmount = amount;
         for (ShoppingCart cartItem : cart) {
-            System.out.println(cartItem.getId());
-            totalAmount += cartItem.getQuantity();
             this.shoppingCartRepository.deleteById(cartItem.getId());
         }
 
-        ShoppingCart shoppingCart = new ShoppingCart(userId, productId, totalAmount);
+        if (amount <= 0){
+            return null;
+        }
+        ShoppingCart shoppingCart = new ShoppingCart(userId, productId, amount);
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
     public String DeleteProductFromCart(UUID userId, UUID productId){
-        System.out.println(userId);
-        System.out.println(productId);
         ShoppingCart[] cart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
         for (ShoppingCart cartItem : cart) {
             this.shoppingCartRepository.deleteById(cartItem.getId());
@@ -48,8 +39,11 @@ public class ShoppingCartDAO {
     }
 
 //    public ShoppingCart UpdateProductInCart(UUID userId, UUID productId, int amount){
-//        ShoppingCart shoppingCart = this.shoppingCartRepository.findByUserIdAndProductId(userId, productId);
-//        shoppingCart.setQuantity(amount);
-//        return this.shoppingCartRepository.save(shoppingCart);
+//        ShoppingCart[] shoppingCart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
+//        for (ShoppingCart cartItem : shoppingCart) {
+//            this.shoppingCartRepository.deleteById(cartItem.getId());
+//        }
+//        ShoppingCart cartItem = new ShoppingCart(userId, productId, amount);
+//        return this.shoppingCartRepository.save(cartItem);
 //    }
 }
