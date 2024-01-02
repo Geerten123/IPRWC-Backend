@@ -26,8 +26,12 @@ public class ShoppingCartController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse GetAllProductsForUser(){
-        UUID userId = userService.getUserFromAuth().getId();
-        return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.GetAllProductsForUser(userId));
+        try {
+            UUID userId = userService.getUserFromAuth().getId();
+            return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.GetAllProductsForUser(userId));
+        } catch (NullPointerException e){
+            return new ApiResponse<>(HttpStatus.UNAUTHORIZED, e);
+        }
     }
 
     @RequestMapping(value = "/{productId}", method = RequestMethod.POST)
