@@ -57,7 +57,6 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("auuth " + SecurityContextHolder.getContext().getAuthentication());
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -100,9 +99,7 @@ public class AuthController {
                 }
             });
         }
-
         user.setRoles(roles);
-        System.out.println("test3");
         userRepository.save(user);
 
         return new ApiResponse<>(HttpStatus.ACCEPTED, "User registered successfully!");

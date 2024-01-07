@@ -1,7 +1,9 @@
 package com.example.iprwcbackendcode.dao;
 
 import com.example.iprwcbackendcode.model.Category;
+import com.example.iprwcbackendcode.model.Product;
 import com.example.iprwcbackendcode.repository.CategoryRepository;
+import com.example.iprwcbackendcode.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,9 @@ import java.util.UUID;
 public class CategoryDAO {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
 
     public List<Category> getAllCategories(){
@@ -28,6 +33,11 @@ public class CategoryDAO {
     }
 
     public Category DeleteCategoryInDatabase(UUID id) {
+        List<Product> products = productRepository.findProductsByCategory(id);
+        for(Product product : products){
+            product.setCategory(null);
+            productRepository.save(product);
+        }
         Category category = categoryRepository.findCategoryById(id);
         categoryRepository.delete(category);
         return category;
