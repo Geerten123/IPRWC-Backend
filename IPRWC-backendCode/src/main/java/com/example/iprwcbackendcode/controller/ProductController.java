@@ -4,6 +4,7 @@ import com.example.iprwcbackendcode.dao.ProductDAO;
 import com.example.iprwcbackendcode.model.ApiResponse;
 import com.example.iprwcbackendcode.model.Product;
 import com.example.iprwcbackendcode.security.services.UserService;
+import com.sun.tools.jconsole.JConsoleContext;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,12 @@ public class ProductController {
     @ResponseBody
     public ApiResponse GetProductById(@PathVariable UUID id){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getProductById(id));
+    }
+
+    @RequestMapping(value = "/get/category/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse GetProductsByCategoryId(@PathVariable UUID id){
+        return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getProductsByCategory(id));
     }
 
     @RequestMapping(method = RequestMethod.POST)

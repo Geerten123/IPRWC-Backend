@@ -16,6 +16,8 @@ public class Product {
     private float price;
     private String description;
 
+    private UUID category;
+
     public UUID getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 }
