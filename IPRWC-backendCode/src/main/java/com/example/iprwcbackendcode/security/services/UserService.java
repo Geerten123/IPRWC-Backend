@@ -1,5 +1,6 @@
 package com.example.iprwcbackendcode.security.services;
 
+import com.example.iprwcbackendcode.model.Role;
 import com.example.iprwcbackendcode.model.User;
 import com.example.iprwcbackendcode.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

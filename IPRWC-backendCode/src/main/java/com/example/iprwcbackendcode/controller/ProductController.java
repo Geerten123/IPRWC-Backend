@@ -3,6 +3,7 @@ package com.example.iprwcbackendcode.controller;
 import com.example.iprwcbackendcode.dao.ProductDAO;
 import com.example.iprwcbackendcode.model.ApiResponse;
 import com.example.iprwcbackendcode.model.Product;
+import com.example.iprwcbackendcode.security.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,11 @@ public class ProductController {
     @Autowired
     private ProductDAO productDAO;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-//    @PreAuthorize("hasRole('None')")
     public ApiResponse GetAllProducts(){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getAllProducts());
     }
@@ -35,18 +38,21 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ApiResponse PostProduct(@Valid @RequestBody Product product){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.SaveProductToDatabase(product));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ApiResponse UpdateProduct(@PathVariable UUID id, @Valid @RequestBody Product product){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.UpdateProductInDatabase(id, product));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ApiResponse DeleteProduct(@PathVariable UUID id){
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.DeleteProductInDatabase(id));
     }

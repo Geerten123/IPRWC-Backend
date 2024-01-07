@@ -11,10 +11,10 @@ import com.example.iprwcbackendcode.repository.RoleRepository;
 import com.example.iprwcbackendcode.repository.UserRepository;
 import com.example.iprwcbackendcode.security.jwt.JwtUtils;
 import com.example.iprwcbackendcode.security.services.UserDetailsImpl;
+import com.example.iprwcbackendcode.security.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,6 +46,9 @@ public class AuthController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/signin")
     public ApiResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
@@ -103,5 +106,25 @@ public class AuthController {
         userRepository.save(user);
 
         return new ApiResponse<>(HttpStatus.ACCEPTED, "User registered successfully!");
+    }
+
+    @RequestMapping(value = "/getRoles", method = RequestMethod.GET)
+    public ApiResponse GetRoles(){
+        try {
+            Set<Role> roles = this.userService.getUserFromAuth().getRoles();
+            return new ApiResponse<>(HttpStatus.ACCEPTED, roles);
+        } catch (NullPointerException e) {
+            return new ApiResponse<>(HttpStatus.UNAUTHORIZED, e);
+        }
+    }
+
+    @RequestMapping(value = "/isLoggedIn", method = RequestMethod.GET)
+    public ApiResponse IsLoggedIn(){
+        try {
+            User user = this.userService.getUserFromAuth();
+            return new ApiResponse<>(HttpStatus.ACCEPTED, true);
+        } catch (NullPointerException e) {
+            return new ApiResponse<>(HttpStatus.UNAUTHORIZED, false);
+        }
     }
 }

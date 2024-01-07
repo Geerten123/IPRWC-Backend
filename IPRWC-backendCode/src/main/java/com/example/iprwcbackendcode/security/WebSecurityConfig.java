@@ -70,9 +70,10 @@ public class WebSecurityConfig {
                         // TODO remove this in production
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/products").permitAll()
+                        .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/products/get/**").permitAll()
                         .requestMatchers("/api/cart").permitAll()
+//                        .requestMatchers("api/products")
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
