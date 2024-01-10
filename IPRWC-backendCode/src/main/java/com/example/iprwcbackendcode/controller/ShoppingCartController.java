@@ -2,12 +2,10 @@ package com.example.iprwcbackendcode.controller;
 
 import com.example.iprwcbackendcode.dao.ShoppingCartDAO;
 import com.example.iprwcbackendcode.model.ApiResponse;
-import com.example.iprwcbackendcode.security.services.UserDetailsImpl;
 import com.example.iprwcbackendcode.security.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -46,9 +44,9 @@ public class ShoppingCartController {
         return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.DeleteProductFromCart(userId, productId));
     }
 
-//    @RequestMapping(value = "/{productId}",method = RequestMethod.PUT)
-//    public ApiResponse UpdateProductInCart(@PathVariable UUID productId, @Valid @RequestBody int amount){
-//        UUID userId = userService.getUserFromAuth().getId();
-//        return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.UpdateProductInCart(userId, productId, amount));
-//    }
+    @RequestMapping(value = "/{productId}",method = RequestMethod.PUT)
+    public ApiResponse UpdateProductInCart(@PathVariable UUID productId, @Valid @RequestBody int amount){
+        UUID userId = userService.getUserFromAuth().getId();
+        return new ApiResponse<>(HttpStatus.ACCEPTED, this.shoppingCartDAO.UpdateProductInCart(userId, productId, amount));
+    }
 }

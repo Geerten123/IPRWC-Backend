@@ -13,6 +13,7 @@ public class ShoppingCartDAO {
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
 
+
     public ShoppingCart[] GetAllProductsForUser(UUID userId){
         return this.shoppingCartRepository.findAllByUserId(userId);
     }
@@ -30,20 +31,22 @@ public class ShoppingCartDAO {
         return this.shoppingCartRepository.save(shoppingCart);
     }
 
-    public String DeleteProductFromCart(UUID userId, UUID productId){
+    public ShoppingCart DeleteProductFromCart(UUID userId, UUID productId){
         ShoppingCart[] cart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
+        ShoppingCart lastitem = null;
         for (ShoppingCart cartItem : cart) {
             this.shoppingCartRepository.deleteById(cartItem.getId());
+            lastitem = cartItem;
         }
-        return "Product deleted from cart";
+        return lastitem;
     }
 
-//    public ShoppingCart UpdateProductInCart(UUID userId, UUID productId, int amount){
-//        ShoppingCart[] shoppingCart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
-//        for (ShoppingCart cartItem : shoppingCart) {
-//            this.shoppingCartRepository.deleteById(cartItem.getId());
-//        }
-//        ShoppingCart cartItem = new ShoppingCart(userId, productId, amount);
-//        return this.shoppingCartRepository.save(cartItem);
-//    }
+    public ShoppingCart UpdateProductInCart(UUID userId, UUID productId, int amount){
+        ShoppingCart[] shoppingCart = this.shoppingCartRepository.findAllByUserIdAndProductId(userId, productId);
+        for (ShoppingCart cartItem : shoppingCart) {
+            this.shoppingCartRepository.deleteById(cartItem.getId());
+        }
+        ShoppingCart cartItem = new ShoppingCart(userId, productId, amount);
+        return this.shoppingCartRepository.save(cartItem);
+    }
 }
