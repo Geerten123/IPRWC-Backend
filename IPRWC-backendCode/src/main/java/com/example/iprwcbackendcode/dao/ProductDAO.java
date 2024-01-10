@@ -39,6 +39,9 @@ public class ProductDAO {
         if(product.getDescription() != null){
             oldProduct.setDescription(product.getDescription());
         }
+        if(product.getCategory() != null){
+            oldProduct.setCategory(product.getCategory());
+        }
 
         return productRepository.save(oldProduct);
     }
@@ -47,5 +50,9 @@ public class ProductDAO {
         Product product = productRepository.findProductById(id);
         productRepository.delete(product);
         return product;
+    }
+
+    public List<Product> getProductsByCategory(UUID id){
+        return productRepository.findProductsByCategory(id);
     }
 }

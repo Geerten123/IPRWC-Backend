@@ -73,6 +73,9 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/products/get/**").permitAll()
                         .requestMatchers("/api/cart").permitAll()
+                        .requestMatchers("api/category/**").permitAll()
+                        .requestMatchers("/api/category").permitAll()
+                        .requestMatchers("/api/get/category/**").permitAll()
 //                        .requestMatchers("api/products")
                         .anyRequest().authenticated());
         http.authenticationProvider(authenticationProvider());

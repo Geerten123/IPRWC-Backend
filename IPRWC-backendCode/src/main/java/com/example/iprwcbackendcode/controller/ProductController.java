@@ -36,6 +36,12 @@ public class ProductController {
         return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getProductById(id));
     }
 
+    @RequestMapping(value = "/get/category/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ApiResponse GetProductsByCategoryId(@PathVariable UUID id){
+        return new ApiResponse<>(HttpStatus.ACCEPTED, productDAO.getProductsByCategory(id));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_ADMIN')")
